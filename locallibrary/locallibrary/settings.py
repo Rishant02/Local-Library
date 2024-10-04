@@ -35,7 +35,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = [".railway.app", ".pythonanywhere.com", "127.0.0.1"]
+ALLOWED_HOSTS = [".railway.app", "rishant02.pythonanywhere.com", "127.0.0.1"]
 
 # Set CSRF Trusted origins
 CSRF_TRUSTED_ORIGINS = ["https://*.railway.app", "https://*.pythonanywhere.com"]
@@ -87,11 +87,13 @@ WSGI_APPLICATION = "locallibrary.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+
+# Replace it with your DATABASES.
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+    )
 }
 
 
