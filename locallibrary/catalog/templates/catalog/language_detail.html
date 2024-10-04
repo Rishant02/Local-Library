@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+{% block title %}
+    <title>{{language}}</title>
+{% endblock title %}
+{% block content %}
+    <h4>Books in {{language}} language</h4>
+    <ul>
+        {% for book in language.book_set.all %}
+        <li>
+            <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+        </li>
+        {% empty %}
+        <li>There are no books in the {{ language }} language.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block sidebar %}
+    {{block.super}}
+    {% if perms.catalog.change_language or perms.catalog.delete_language %}
+        <hr>
+        <ul class="sidebar-nav">
+            {% if perms.catalog.change_language %}
+                <li><a href="{% url "catalog:language-update" language.id %}">Update language</a></li>
+            {% endif %}
+            {% if not language.book_set.all and perms.catalog.delete_language %}
+                <li><a href="{% url 'catalog:language-delete' language.id%}">Delete language</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock sidebar %}
